@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reservationtool.mapper.ReservationMapper">
+    <select id="findByReservationsReservableRoomId" resultType="reservationtool.mapper.response.ReservationResponse">
+        select
+        rsv.reservation_id,
+        rsv.start_time,
+        rsv.end_time,
+        rsv.room_id,
+        rsv.reserved_date,
+        mtrm.room_name,
+        rsv.user_id,
+        usr.first_name,
+        usr.last_name
+        from
+        reservation rsv
+        inner join meeting_room mtrm
+        on rsv.room_id = mtrm.room_id
+        inner join usr
+        on usr.user_id = rsv.user_id
+        where
+        rsv.room_id = #{roomId}
+        and rsv.reserved_date = #{reservedDate}
+        order by rsv.start_time asc
+    </select>
+    <insert id="reserve">
+        insert into reservation (start_time, end_time, room_id, reserved_date, user_id)
+        values (#{startTime},#{endTime},#{roomId},#{reservedDate},#{user.userId})
+    </insert>
+    <delete id="cancel">
+        delete from reservation where reservation_id = #{reservationId}
+    </delete>
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reservationtool.mapper.ReservableRoomMapper">
+    <select id="findByReservableRoomByDate" resultType="reservationtool.domain.model.ReservableRoom">
+        select
+        rsvrm.room_id,
+        rsvrm.reserved_date,
+        mtrm.room_name
+        from
+        reservable_room rsvrm
+        left join meeting_room mtrm
+        on rsvrm.room_id = mtrm.room_id
+        where
+        rsvrm.reserved_date = #{reserveDate}
+    </select>
+</mapper>
